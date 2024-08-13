@@ -40,12 +40,53 @@ programa {
 		}
 	}
 
-	funcao kartLocados(){
-		
+	funcao kartLocados(inteiro qtdTotal, cadeia modelo[], inteiro disponivel[]) {
+		inteiro achei = 0 
+		escreva("Lista de carros locados:\n")
+		se(qtdTotal == 0){
+			escreva("Nenhum kart cadastrado\n")
+		}
+		para(inteiro i = 0; i < qtdTotal; i++) {	
+			se(disponivel[i] == 2) {
+				escreva("O modelo ", modelo[i], " está locado\n")
+				achei = 1
+			} senao {
+				se(disponivel[i] !=2 e achei == 0) {
+					escreva("Nenhum modelo locado\n")
+					achei = 1
+				}
+			}
+		}	
 	}
 
-	funcao alugarKart(){
-		
+	funcao alugarKart(inteiro qtdTotal, cadeia modelo[], real valor[], inteiro qtdLocado[], inteiro disponivel[]) {
+		inteiro numeroKart, achei = 0
+		escreva("Aluguel de kart's\n")
+		se(qtdTotal == 0){
+			escreva("Nenhum kart cadastrado\n")
+		}
+		para(inteiro i = 0; i < qtdTotal; i++) {
+			se(disponivel[i] == 1) {
+				escreva("Escolha ", i," para alugar o kart: Modelo - ", modelo[i], " -------- R$", valor[i], "\n")
+				achei = 1
+			}	
+		}
+		para(inteiro i = 0; i < qtdTotal; i++) {
+			se(disponivel[i] != 1 e achei == 0) {
+				escreva("Nenhum kart disponível para alugar\n")
+				pare		
+			} 
+		}	
+		enquanto(achei == 1) {	
+			leia(numeroKart)
+			se(disponivel[numeroKart] == 1){
+				disponivel[numeroKart] = 2
+				qtdLocado[numeroKart] = qtdLocado[numeroKart] + 1
+				achei = 0
+			} senao {
+				escreva("Escolha um kart disponível\n")	
+			}
+		}
 	}
 
 	funcao devolverKart(){
@@ -86,10 +127,10 @@ programa {
 				kartDisponiveis(qtdTotal, modelo, valor, qtdLocado, valorAcumulado)
 				pare
 			caso 3:
-				kartLocados()
+				kartLocados(qtdTotal, modelo, disponivel)
 				pare
 			caso 4:
-				alugarKart()
+				alugarKart(qtdTotal, modelo, valor, qtdLocado, disponivel)
 				pare
 			caso 5:
 				devolverKart()
