@@ -47,11 +47,11 @@ programa {
 			escreva("Nenhum kart cadastrado\n")
 		}
 		para(inteiro i = 0; i < qtdTotal; i++) {	
-			se(disponivel[i] == 2) {
+			se(disponivel[i] == 0) {
 				escreva("O modelo ", modelo[i], " está locado\n")
 				achei = 1
 			} senao {
-				se(disponivel[i] !=2 e achei == 0) {
+				se(disponivel[i] != 0 e achei == 0) {
 					escreva("Nenhum modelo locado\n")
 					achei = 1
 				}
@@ -80,7 +80,7 @@ programa {
 		enquanto(achei == 1) {	
 			leia(numeroKart)
 			se(disponivel[numeroKart] == 1){
-				disponivel[numeroKart] = 2
+				disponivel[numeroKart] = 0
 				qtdLocado[numeroKart] = qtdLocado[numeroKart] + 1
 				achei = 0
 			} senao {
