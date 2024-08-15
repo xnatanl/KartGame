@@ -1,3 +1,1 @@
-# KartGame
- Projeto 2 de Calg -  Kartódromo
-![kart img](https://github.com/user-attachments/assets/4718fe3b-924a-4237-89ae-cbea182b48a9)
+![kart img](https://github.com/user-attachments/assets/c1728b4d-8bc1-482c-b4af-86d596508e16)
