@@ -89,8 +89,33 @@ programa {
 		}
 	}
 
-	funcao devolverKart(){
-		
+	funcao devolverKart(inteiro qtdTotal, cadeia modelo[], inteiro qtdLocado[], inteiro disponivel[]){
+		inteiro numeroKart, achei = 0
+		escreva("Devolução de kart's\n")
+		se(qtdTotal == 0){
+			escreva("Nenhum kart cadastrado\n")
+		}
+		para(inteiro i = 0; i < qtdTotal; i++) {
+			se(disponivel[i] == 0) {
+				escreva("Escolha ", i," para devolver o kart: Modelo - ", modelo[i],"\n")
+				achei = 1
+			}	
+		}
+		para(inteiro i = 0; i < qtdTotal; i++) {
+			se(disponivel[i] == 1 e achei == 0) {
+				escreva("Nenhum kart para devolver\n")
+				pare		
+			} 
+		}	
+		enquanto(achei == 1) {	
+			leia(numeroKart)
+			se(disponivel[numeroKart] == 0){
+				disponivel[numeroKart] = 1
+				achei = 0
+			} senao {
+				escreva("Escolha um kart disponível\n")	
+			}
+		}
 	}
 
 	funcao kartMaiorGanho(){
@@ -133,7 +158,7 @@ programa {
 				alugarKart(qtdTotal, modelo, valor, qtdLocado, disponivel)
 				pare
 			caso 5:
-				devolverKart()
+				devolverKart(qtdTotal, modelo, qtdLocado, disponivel)
 				pare
 			caso 6:
 				kartMaiorGanho()
