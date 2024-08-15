@@ -26,7 +26,7 @@ programa {
 		se(qtdTotal >= 1) {
 			limpa()
 			para(inteiro i = 0; i <= qtdTotal - 1 ; i++) {
-				escreva ("O modelo ", modelo[i]," tem valor de locação de R$ ", valor[i]," alugado ", qtdLocado[i], " vezes, gerando um lucro total de R$ ", valorAcumulado[i], ".\n")
+				escreva("O modelo [", modelo[i],"] tem valor de locação de R$ ", valor[i]," alugado ", qtdLocado[i], " vezes, gerando um lucro total de R$ ", valorAcumulado[i], ".\n")
 			}
 			u.aguarde(2000)
 		} senao {
@@ -48,7 +48,7 @@ programa {
 		}
 		para(inteiro i = 0; i < qtdTotal; i++) {	
 			se(disponivel[i] == 0) {
-				escreva("O modelo ", modelo[i], " está locado\n")
+				escreva("O modelo [", modelo[i], "] está locado\n")
 				achei = 1
 			} senao {
 				se(disponivel[i] != 0 e achei == 0) {
@@ -59,7 +59,7 @@ programa {
 		}	
 	}
 
-	funcao alugarKart(inteiro qtdTotal, cadeia modelo[], real valor[], inteiro qtdLocado[], inteiro disponivel[]) {
+	funcao alugarKart(inteiro qtdTotal, cadeia modelo[], real valor[], inteiro qtdLocado[], inteiro disponivel[], real &valorAcumulado[]) {
 		inteiro numeroKart, achei = 0
 		escreva("Aluguel de kart's\n")
 		se(qtdTotal == 0){
@@ -67,7 +67,7 @@ programa {
 		}
 		para(inteiro i = 0; i < qtdTotal; i++) {
 			se(disponivel[i] == 1) {
-				escreva("Escolha ", i," para alugar o kart: Modelo - ", modelo[i], " -------- R$", valor[i], "\n")
+				escreva("Escolha ", i," para alugar o kart: Modelo - [", modelo[i], "] -------- R$", valor[i], "\n")
 				achei = 1
 			}	
 		}
@@ -82,6 +82,7 @@ programa {
 			se(disponivel[numeroKart] == 1){
 				disponivel[numeroKart] = 0
 				qtdLocado[numeroKart] = qtdLocado[numeroKart] + 1
+				valorAcumulado[numeroKart] = valorAcumulado[numeroKart] + valor[numeroKart]
 				achei = 0
 			} senao {
 				escreva("Escolha um kart disponível\n")	
@@ -97,7 +98,7 @@ programa {
 		}
 		para(inteiro i = 0; i < qtdTotal; i++) {
 			se(disponivel[i] == 0) {
-				escreva("Escolha ", i," para devolver o kart: Modelo - ", modelo[i],"\n")
+				escreva("Escolha ", i," para devolver o kart: Modelo - [", modelo[i],"]\n")
 				achei = 1
 			}	
 		}
@@ -118,8 +119,16 @@ programa {
 		}
 	}
 
-	funcao kartMaiorGanho(){
-		
+	funcao kartMaiorGanho(real &valorAcumulado[], cadeia modelo[], inteiro qtdLocado[]){
+		inteiro indice = 0
+		real maior = 0.0
+		para(inteiro i = 0; i < 15; i++){
+			se(valorAcumulado[i] > maior) {
+				maior = valorAcumulado[i]
+				indice = i
+			}
+		}
+		escreva("O Kart mais alugado foi o: [", modelo[indice], "], com um total de [", qtdLocado[indice] , "] vezes alugado e com um acumulo de: ",valorAcumulado[indice], "R$ \n")
 	}
 
 	funcao receitaDia(){
@@ -155,13 +164,13 @@ programa {
 				kartLocados(qtdTotal, modelo, disponivel)
 				pare
 			caso 4:
-				alugarKart(qtdTotal, modelo, valor, qtdLocado, disponivel)
+				alugarKart(qtdTotal, modelo, valor, qtdLocado, disponivel, valorAcumulado)
 				pare
 			caso 5:
 				devolverKart(qtdTotal, modelo, qtdLocado, disponivel)
 				pare
 			caso 6:
-				kartMaiorGanho()
+				kartMaiorGanho(valorAcumulado, modelo, qtdLocado)
 				pare
 			caso 7:
 				receitaDia()
@@ -185,7 +194,7 @@ programa {
 		inteiro qtdLocado[15]
 		inteiro disponivel[15] // 1 = disponivel, 0 = locado
 		real valorAcumulado[15]
-		inteiro qtdTotal = 0
+		inteiro qtdTotal = 0 //quantidade de karts ja cadastrados
 		inteiro continuar
 		inteiro interruptor = 1
 
