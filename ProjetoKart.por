@@ -53,7 +53,7 @@ programa {
 			} senao {
 				se(disponivel[i] != 0 e achei == 0) {
 					escreva("Nenhum modelo locado\n")
-					achei = 1
+					pare
 				}
 			}
 		}	
@@ -69,13 +69,12 @@ programa {
 			se(disponivel[i] == 1) {
 				escreva("Escolha ", i," para alugar o kart: Modelo - [", modelo[i], "] -------- R$", valor[i], "\n")
 				achei = 1
-			}	
-		}
-		para(inteiro i = 0; i < qtdTotal; i++) {
-			se(disponivel[i] != 1 e achei == 0) {
-				escreva("Nenhum kart disponível para alugar\n")
-				pare		
-			} 
+			} senao {
+				se(disponivel[i] != 1 e achei == 0) {
+					escreva("Nenhum kart disponível para alugar\n")
+					pare		
+				} 
+			}
 		}	
 		enquanto(achei == 1) {	
 			leia(numeroKart)
@@ -100,13 +99,12 @@ programa {
 			se(disponivel[i] == 0) {
 				escreva("Escolha ", i," para devolver o kart: Modelo - [", modelo[i],"]\n")
 				achei = 1
-			}	
-		}
-		para(inteiro i = 0; i < qtdTotal; i++) {
-			se(disponivel[i] == 1 e achei == 0) {
-				escreva("Nenhum kart para devolver\n")
-				pare		
-			} 
+			} senao {
+				se(disponivel[i] == 1 e achei == 0) {
+					escreva("Nenhum kart para devolver\n")
+					pare		
+				} 
+			}
 		}	
 		enquanto(achei == 1) {	
 			leia(numeroKart)
