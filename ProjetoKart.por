@@ -79,10 +79,10 @@ programa {
 		}	
 		enquanto(achei == 1) {	
 			leia(numeroKart)
-			se(disponivel[numeroKart] == 1){
+			se(numeroKart < qtdTotal e numeroKart >= 0 e disponivel[numeroKart] == 1){
 				disponivel[numeroKart] = 0
 				qtdLocado[numeroKart] = qtdLocado[numeroKart] + 1
-				valorAcumulado[numeroKart] = valorAcumulado[numeroKart] + valor[numeroKart]
+				valorAcumulado[numeroKart] = valor[numeroKart] * qtdLocado[numeroKart]
 				achei = 0
 			} senao {
 				escreva("Escolha um kart disponível\n")	
@@ -110,7 +110,7 @@ programa {
 		}	
 		enquanto(achei == 1) {	
 			leia(numeroKart)
-			se(disponivel[numeroKart] == 0){
+			se(numeroKart < qtdTotal e numeroKart >= 0 e disponivel[numeroKart] == 0){
 				disponivel[numeroKart] = 1
 				achei = 0
 			} senao {
@@ -128,19 +128,40 @@ programa {
 				indice = i
 			}
 		}
-		escreva("O Kart mais alugado foi o: [", modelo[indice], "], com um total de [", qtdLocado[indice] , "] vezes alugado e com um acumulo de: ",valorAcumulado[indice], "R$ \n")
+		escreva("O Kart mais alugado foi o: [", modelo[indice], "], com um total de [", qtdLocado[indice] , "] vezes alugado e com um acumulo de: R$",valorAcumulado[indice], "\n")
 	}
 
-	funcao receitaDia(){
+	funcao receitaDia(inteiro dia, real &ganhosDoDia, real valorAcumulado[], inteiro &flag){
+		inteiro total = 0
+		escreva("Hoje e o dia: ", dia, "\n")
+
+		para(inteiro i = 0; i < 15; i++){
+			total += valorAcumulado[i]
+		}
 		
+		se (flag == 0) {
+			ganhosDoDia += total
+			flag = 1
+		}
+		
+		escreva("O total de ganhos hoje é: R$", total , "\n")
 	}
 
 	funcao alugarCircuito(){
-		
+		//valorDoCircuito tem de ser atualizado se ele ja nao tiver sido alugado hoje
 	}
 
-	funcao atualizarDia(){
-		
+	funcao atualizarDia(inteiro &dia, inteiro &flag, real valorAcumulado[], inteiro &qtdLocado[], real valor[]){	
+		para(inteiro i = 0; i < 15; i++){
+			se(qtdLocado[i] > 0) {
+				qtdLocado[i] = qtdLocado[i] + 1
+				valorAcumulado[i] = valor[i] * qtdLocado[i]
+			}
+		}
+		flag = 0
+		dia++
+		escreva("Dia: ", dia, "\n")
+		// atualizar ganho total, passar o dia, limpar reserva do circuito e aumentar em mais 1 a quantidade de dias q os karts locados estao 
 	}
 
 	funcao sair(inteiro &interruptor){
@@ -152,7 +173,21 @@ programa {
 		escreva("|__________________________| \n")
 	}
 
-	funcao menu(inteiro opcao, inteiro &interruptor, inteiro &qtdTotal, cadeia &modelo[], real &valor[], inteiro &qtdLocado[], real &valorAcumulado[], inteiro &disponivel[]) {
+	funcao menu(
+		inteiro opcao,
+		inteiro &interruptor,
+		inteiro &qtdTotal,
+		cadeia &modelo[],
+		real &valor[],
+		inteiro &qtdLocado[],
+		real &valorAcumulado[],
+		inteiro &disponivel[],
+		real &ganhosTotais,
+		real &ganhosDoDia,
+		inteiro &dia,
+		inteiro &flag
+		) {
+			
 		escolha(opcao) {
 			caso 1:
 				cadastrarKart(qtdTotal, modelo, valor, qtdLocado, valorAcumulado, disponivel)
@@ -173,13 +208,13 @@ programa {
 				kartMaiorGanho(valorAcumulado, modelo, qtdLocado)
 				pare
 			caso 7:
-				receitaDia()
+				receitaDia(dia, ganhosDoDia, valorAcumulado, flag)
 				pare
 			caso 8:
 				alugarCircuito()
 				pare
 			caso 9:
-				atualizarDia()
+				atualizarDia(dia, flag, valorAcumulado, qtdLocado, valor)
 				pare
 			caso 10:
 				sair(interruptor)
@@ -197,6 +232,13 @@ programa {
 		inteiro qtdTotal = 0 //quantidade de karts ja cadastrados
 		inteiro continuar
 		inteiro interruptor = 1
+
+		real ganhosTotais = 0.0
+		real ganhosDoDia = 0.0
+
+		inteiro dia = 1
+
+		inteiro flag = 0
 
 		//modelo[0] = "Nissan"
 		//valor[0] = 3000.50
@@ -223,7 +265,20 @@ programa {
 			escreva("R: ")
 			leia(continuar)
 			se(continuar >= 1 e continuar <=10) {
-				menu(continuar, interruptor, qtdTotal, modelo, valor, qtdLocado, valorAcumulado, disponivel)
+				menu(
+					continuar,
+					interruptor,
+					qtdTotal,
+					modelo,
+					valor,
+					qtdLocado,
+					valorAcumulado,
+					disponivel,
+					ganhosTotais,
+					ganhosDoDia,
+					dia,
+					flag
+					)
 			} senao {
 				sair(interruptor)
 			}
@@ -247,7 +302,7 @@ programa {
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 4127; 
+ * @POSICAO-CURSOR = 2888; 
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = {modelo, 4, 49, 6}-{valor, 4, 65, 5}-{qtdLocado, 4, 83, 9}-{valorAcumulado, 4, 102, 14}-{disponivel, 4, 129, 10};
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
