@@ -79,7 +79,7 @@ programa {
 		}	
 		enquanto(achei == 1) {	
 			leia(numeroKart)
-			se(disponivel[numeroKart] == 1){
+			se(numeroKart < qtdTotal e numeroKart >= 0 e disponivel[numeroKart] == 1){
 				disponivel[numeroKart] = 0
 				qtdLocado[numeroKart] = qtdLocado[numeroKart] + 1
 				valorAcumulado[numeroKart] = valorAcumulado[numeroKart] + valor[numeroKart]
@@ -110,7 +110,7 @@ programa {
 		}	
 		enquanto(achei == 1) {	
 			leia(numeroKart)
-			se(disponivel[numeroKart] == 0){
+			se(numeroKart < qtdTotal e numeroKart >= 0 e disponivel[numeroKart] == 0){
 				disponivel[numeroKart] = 1
 				achei = 0
 			} senao {
