@@ -131,7 +131,7 @@ programa {
 		escreva("O Kart mais alugado foi o: [", modelo[indice], "], com um total de [", qtdLocado[indice] , "] vezes alugado e com um acumulo de: R$",valorAcumulado[indice], "\n")
 	}
 
-	funcao receitaDia(inteiro dia, real &ganhosDoDia, real valorAcumulado[], inteiro &flag){
+	funcao receitaDia(inteiro dia, real valorAcumulado[], inteiro &flag, inteiro &valorCircuito){
 		inteiro total = 0
 		escreva("Hoje e o dia: ", dia, "\n")
 
@@ -140,18 +140,23 @@ programa {
 		}
 		
 		se (flag == 0) {
-			ganhosDoDia += total
-			flag = 1
+			total += valorCircuito
 		}
 		
 		escreva("O total de ganhos hoje é: R$", total , "\n")
 	}
 
-	funcao alugarCircuito(){
-		//valorDoCircuito tem de ser atualizado se ele ja nao tiver sido alugado hoje
+	funcao alugarCircuito(inteiro &reservado, inteiro &valorCircuito){
+		se(reservado == 0) {
+			escreva("Reserva feita com sucesso \n")
+			valorCircuito += 1000
+			reservado = 1
+		} senao {
+			escreva("Circuito ja esta reservado \n")
+		}
 	}
 
-	funcao atualizarDia(inteiro &dia, inteiro &flag, real valorAcumulado[], inteiro &qtdLocado[], real valor[]){	
+	funcao atualizarDia(inteiro &dia, inteiro &flag, real valorAcumulado[], inteiro &qtdLocado[], real valor[], inteiro &reservado){	
 		para(inteiro i = 0; i < 15; i++){
 			se(qtdLocado[i] > 0) {
 				qtdLocado[i] = qtdLocado[i] + 1
@@ -160,6 +165,7 @@ programa {
 		}
 		flag = 0
 		dia++
+		reservado = 0
 		escreva("Dia: ", dia, "\n")
 		// atualizar ganho total, passar o dia, limpar reserva do circuito e aumentar em mais 1 a quantidade de dias q os karts locados estao 
 	}
@@ -182,10 +188,10 @@ programa {
 		inteiro &qtdLocado[],
 		real &valorAcumulado[],
 		inteiro &disponivel[],
-		real &ganhosTotais,
-		real &ganhosDoDia,
 		inteiro &dia,
-		inteiro &flag
+		inteiro &flag,
+		inteiro &reservado,
+		inteiro &valorCircuito
 		) {
 			
 		escolha(opcao) {
@@ -208,13 +214,13 @@ programa {
 				kartMaiorGanho(valorAcumulado, modelo, qtdLocado)
 				pare
 			caso 7:
-				receitaDia(dia, ganhosDoDia, valorAcumulado, flag)
+				receitaDia(dia, valorAcumulado, flag, valorCircuito)
 				pare
 			caso 8:
-				alugarCircuito()
+				alugarCircuito(reservado, valorCircuito)
 				pare
 			caso 9:
-				atualizarDia(dia, flag, valorAcumulado, qtdLocado, valor)
+				atualizarDia(dia, flag, valorAcumulado, qtdLocado, valor, reservado)
 				pare
 			caso 10:
 				sair(interruptor)
@@ -232,13 +238,16 @@ programa {
 		inteiro qtdTotal = 0 //quantidade de karts ja cadastrados
 		inteiro continuar
 		inteiro interruptor = 1
+		
 
-		real ganhosTotais = 0.0
-		real ganhosDoDia = 0.0
 
 		inteiro dia = 1
 
 		inteiro flag = 0
+
+		inteiro reservado = 0
+
+		inteiro valorCircuito = 0
 
 		//modelo[0] = "Nissan"
 		//valor[0] = 3000.50
@@ -265,6 +274,7 @@ programa {
 			escreva("R: ")
 			leia(continuar)
 			se(continuar >= 1 e continuar <=10) {
+				limpa()
 				menu(
 					continuar,
 					interruptor,
@@ -274,10 +284,10 @@ programa {
 					qtdLocado,
 					valorAcumulado,
 					disponivel,
-					ganhosTotais,
-					ganhosDoDia,
 					dia,
-					flag
+					flag,
+					reservado,
+					valorCircuito
 					)
 			} senao {
 				sair(interruptor)
@@ -302,9 +312,9 @@ programa {
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 2888; 
+ * @POSICAO-CURSOR = 5628; 
  * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = {modelo, 4, 49, 6}-{valor, 4, 65, 5}-{qtdLocado, 4, 83, 9}-{valorAcumulado, 4, 102, 14}-{disponivel, 4, 129, 10};
+ * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
  * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
  */
