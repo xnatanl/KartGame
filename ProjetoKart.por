@@ -142,7 +142,6 @@ programa {
 		se (flag == 0) {
 			total += valorCircuito
 		}
-		
 		escreva("O total de ganhos hoje é: R$", total , "\n")
 	}
 
@@ -167,7 +166,7 @@ programa {
 		dia++
 		reservado = 0
 		escreva("Dia: ", dia, "\n")
-		// atualizar ganho total, passar o dia, limpar reserva do circuito e aumentar em mais 1 a quantidade de dias q os karts locados estao 
+		escreva("A reserva do Circuito acabou!")
 	}
 
 	funcao sair(inteiro &interruptor){
@@ -235,18 +234,13 @@ programa {
 		inteiro qtdLocado[15]
 		inteiro disponivel[15] // 1 = disponivel, 0 = locado
 		real valorAcumulado[15]
+		
 		inteiro qtdTotal = 0 //quantidade de karts ja cadastrados
 		inteiro continuar
 		inteiro interruptor = 1
-		
-
-
 		inteiro dia = 1
-
 		inteiro flag = 0
-
 		inteiro reservado = 0
-
 		inteiro valorCircuito = 0
 
 		//modelo[0] = "Nissan"
@@ -312,7 +306,7 @@ programa {
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 5628; 
+ * @POSICAO-CURSOR = 4367; 
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
