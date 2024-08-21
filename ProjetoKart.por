@@ -73,7 +73,6 @@ programa {
 		para(inteiro i = 0; i < qtdTotal; i++) {
 			se(disponivel[i] == 1) {
 				escreva("Escolha ", i," para alugar o kart: Modelo - [", modelo[i], "] -------- R$", valor[i], "\n")
-				devolvido[i] = 0
 				achei = 1
 			}	
 		}
@@ -87,6 +86,7 @@ programa {
 			leia(numeroKart)
 			se(numeroKart < qtdTotal e numeroKart >= 0 e disponivel[numeroKart] == 1){
 				disponivel[numeroKart] = 0
+				devolvido[numeroKart] = 0
 				qtdLocado[numeroKart] = qtdLocado[numeroKart] + 1
 				valorAcumulado[numeroKart] = valor[numeroKart] * qtdLocado[numeroKart]
 				achei = 0
@@ -106,7 +106,6 @@ programa {
 		para(inteiro i = 0; i < qtdTotal; i++) {
 			se(disponivel[i] == 0) {
 				escreva("Escolha ", i," para devolver o kart: Modelo - [", modelo[i],"]\n")
-				devolvido[i] = 1
 				achei = 1
 			}	
 		}
@@ -120,6 +119,7 @@ programa {
 			leia(numeroKart)
 			se(numeroKart < qtdTotal e numeroKart >= 0 e disponivel[numeroKart] == 0){
 				disponivel[numeroKart] = 1
+				devolvido[numeroKart] = 1
 				achei = 0
 			} senao {
 				escreva("Escolha um kart disponível\n")
