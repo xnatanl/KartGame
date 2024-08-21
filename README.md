@@ -14,4 +14,3 @@ Foi então que surgiu a ideia de desenvolver o Kart Control, uma solução basea
 *O Impacto*
 
 Com o novo sistema, a administração do kartódromo passou a ser mais suave e eficiente. A equipe pode agora se concentrar no que realmente importa enquanto o sistema cuida da parte operacional.
-
