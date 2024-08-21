@@ -1,5 +1,3 @@
-
-
 #Kart Control: Sistema de Gestão Eficiente
 
 Em um kartódromo, a administração eficaz é crucial para garantir o bom funcionamento das operações diárias e a satisfação dos clientes. No entanto, gerenciar o cadastro, o aluguel e a devolução dos karts, bem como monitorar as finanças e a utilização dos circuitos, pode ser desafiador sem as ferramentas adequadas.
