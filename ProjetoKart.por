@@ -185,8 +185,8 @@ programa {
 		u.aguarde(1000)
 	}
 
-	funcao alugarCircuito(inteiro &reservado, real &valorCircuito, inteiro &cadastroCircuito){
-		real preco = 0.0, lucroPista = 0.0
+	funcao alugarCircuito(real &preco, inteiro &reservado, real &valorCircuito, inteiro &cadastroCircuito){
+		real lucroPista = 0.0
 		inteiro choice = 0
 		se (cadastroCircuito == 0){
 			escreva("Insira o valor que você deseja cobrar pela locação do circuito: \n")
@@ -212,7 +212,7 @@ programa {
 		}
 	}
 
-	funcao atualizarDia(inteiro &dia, inteiro &flag, real valorAcumulado[], inteiro &qtdLocado[], real valor[], inteiro &reservado, inteiro disponivel[], cadeia modelo[]){	
+	funcao atualizarDia(real &preco, real &valorCircuito, inteiro &dia, inteiro &flag, real valorAcumulado[], inteiro &qtdLocado[], real valor[], inteiro &reservado, inteiro disponivel[], cadeia modelo[]){	
 		escreva("Dia: ", dia, "\n")
 		escreva("O circuito está disponível para o novo dia!\n")
 		para(inteiro i = 0; i < 15; i++){
@@ -226,7 +226,8 @@ programa {
 		}
 		flag = 0
 		dia++
-		reservado = 0	
+		reservado = 0
+		valorCircuito = preco
 		u.aguarde(1000)
 	}
 
@@ -240,6 +241,7 @@ programa {
 	}
 
 	funcao menu(
+		real &preco,
 		inteiro opcao,
 		inteiro &interruptor,
 		inteiro &qtdTotal,
@@ -251,7 +253,7 @@ programa {
 		inteiro &dia,
 		inteiro &flag,
 		inteiro &reservado,
-		real &valorCircuito,
+		real &valorCircuito, 
 		inteiro &cadastroCircuito
 		) {
 			
@@ -278,10 +280,10 @@ programa {
 				receitaDia(dia, valorAcumulado, flag, valorCircuito, disponivel, reservado)
 				pare
 			caso 8:
-				alugarCircuito(reservado, valorCircuito, cadastroCircuito)
+				alugarCircuito(preco, reservado, valorCircuito, cadastroCircuito)
 				pare
 			caso 9:
-				atualizarDia(dia, flag, valorAcumulado, qtdLocado, valor, reservado, disponivel, modelo)
+				atualizarDia(preco, valorCircuito, dia, flag, valorAcumulado, qtdLocado, valor, reservado, disponivel, modelo)
 				pare
 			caso 10:
 				sair(interruptor)
@@ -304,6 +306,7 @@ programa {
 		inteiro reservado = 0
 		real valorCircuito = 0.0
 		inteiro cadastroCircuito = 0
+		real preco = 0.0
 
 		//modelo[0] = "Nissan"
 		//valor[0] = 3000.50
@@ -332,6 +335,7 @@ programa {
 			se(continuar >= 1 e continuar <=10) {
 				limpa()
 				menu(
+					preco,
 					continuar,
 					interruptor,
 					qtdTotal,
