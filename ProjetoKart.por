@@ -12,7 +12,7 @@ programa {
 			modelo[qtdTotal] = nome
 		
 			escreva("Qual o valor do aluguel do Kart: \n")
-			escreva("valor: ")
+			escreva("Valor: ")
 			leia(valorIndividual)
 			valor[qtdTotal] = valorIndividual
 		
@@ -21,7 +21,10 @@ programa {
 			valorAcumulado[qtdTotal] = 0.0
 			qtdTotal++
 		}senao{
-			escreva ("Todas as vagas de cadastro foram preenchidas!\n")
+			escreva(" ___________________________________________________  \n")
+			escreva("|                                                   | \n")
+			escreva("|   Todas as vagas de cadastro foram preenchidas!   | \n")
+			escreva("|___________________________________________________| \n")
 		}
 	}
 
@@ -29,7 +32,7 @@ programa {
 		se(qtdTotal >= 1) {
 			limpa()
 			para(inteiro i = 0; i <= qtdTotal - 1 ; i++) {
-				escreva("O modelo [", modelo[i],"] tem valor de locação de R$ ", valor[i]," alugado ", qtdLocado[i], " vezes, gerando um lucro total de R$ ", valorAcumulado[i], ".\n")
+				escreva("O modelo [", modelo[i],"] tem valor de locação de R$ ", valor[i]," alugado ", qtdLocado[i], " vezes, gerando um faturamento bruto de R$", valorAcumulado[i], "\n")
 			}
 			u.aguarde(2000)
 		} senao {
@@ -76,6 +79,7 @@ programa {
 		para(inteiro i = 0; i < qtdTotal; i++) {
 			se(disponivel[i] == 1) {
 				escreva("Escolha ", i," para alugar o kart: Modelo - [", modelo[i], "] -------- R$", valor[i], "\n")
+				escreva("R: ")
 				achei = 1
 			}	
 		}
@@ -94,7 +98,8 @@ programa {
 				valorAcumulado[numeroKart] = valor[numeroKart] * qtdLocado[numeroKart]
 				achei = 0
 			} senao {
-				escreva("Escolha um kart disponível\n")	
+				escreva("Escolha um kart disponível\n")
+				escreva("R: ")
 			}
 		}
 	}
@@ -109,6 +114,7 @@ programa {
 		para(inteiro i = 0; i < qtdTotal; i++) {
 			se(disponivel[i] == 0) {
 				escreva("Escolha ", i," para devolver o kart: Modelo - [", modelo[i],"]\n")
+				escreva("R: ")
 				achei = 1
 			}	
 		}
@@ -125,7 +131,8 @@ programa {
 				disponivel[numeroKart] = 1
 				achei = 0
 			} senao {
-				escreva("Escolha um kart disponível\n")	
+				escreva("Escolha um kart disponível\n")
+				escreva("R: ")
 			}
 		}
 	}
@@ -170,39 +177,42 @@ programa {
 			}	
 		}
 		se (reservado==1){
-			total= lucro + valorCircuito
+			total = lucro + valorCircuito
 		}senao{
 			total= lucro
 		}
-		escreva("O total de ganhos hoje é: R$", total , "\n")
+		escreva("A receita liquida hoje é: R$", total , "\n")
 		u.aguarde(1000)
 	}
 
 	funcao alugarCircuito(inteiro &reservado, real &valorCircuito, inteiro &cadastroCircuito){
-		real preco= 0.0, lucroPista= 0.0
-		inteiro choice=0
-		se (cadastroCircuito==0){
-			escreva ("Insira o valor que você deseja cobrar pela locação do circuito: \n")
-			leia (preco)
-			valorCircuito=preco
+		real preco = 0.0, lucroPista = 0.0
+		inteiro choice = 0
+		se (cadastroCircuito == 0){
+			escreva("Insira o valor que você deseja cobrar pela locação do circuito: \n")
+			escreva("R: ")
+			leia(preco)
+			valorCircuito = preco
 			cadastroCircuito++
 		}
-		escreva ("Deseja locar o circuito agora? 1 para sim ou qualquer outro valor para não: \n")
-		leia (choice)
-		se (choice==1){
-			se(reservado == 0 e cadastroCircuito==1){
-				escreva("Reserva feita com sucesso!\n")
-				u.aguarde(1000)
-				valorCircuito = valorCircuito + (0.70*valorCircuito)
-				reservado = 1
-			}senao{
-				escreva("O circuito já está reservado e, por isso, não pode ser alugado no momento.\n")
-				u.aguarde(1000)
+		se(reservado == 0){
+			escreva("Deseja locar o circuito agora? 1 para sim ou qualquer outro valor para não: \n")
+			leia(choice)
+			se(choice == 1){
+				se(reservado == 0 e cadastroCircuito==1){
+					escreva("Reserva feita com sucesso!\n")
+					u.aguarde(1000)
+					valorCircuito *= 0.70
+					reservado = 1
+				}
 			}
+		}senao{
+			escreva("O circuito já está reservado e por isso não pode ser alugado no momento.\n")
+			u.aguarde(1000)
 		}
 	}
 
-	funcao atualizarDia(inteiro &dia, inteiro &flag, real valorAcumulado[], inteiro &qtdLocado[], real valor[], inteiro &reservado, inteiro disponivel [], cadeia Modelo []){	
+	funcao atualizarDia(inteiro &dia, inteiro &flag, real valorAcumulado[], inteiro &qtdLocado[], real valor[], inteiro &reservado, inteiro disponivel[], cadeia modelo[]){	
 		escreva("Dia: ", dia, "\n")
 		escreva("O circuito está disponível para o novo dia!\n")
 		para(inteiro i = 0; i < 15; i++){
@@ -210,7 +220,7 @@ programa {
 				qtdLocado[i] = qtdLocado[i] + 1
 				valorAcumulado[i] = valor[i] * qtdLocado[i]
 				se (disponivel [i]==0){
-					escreva ("O Kart ", Modelo [i], " terá uma nova cobrança de aluguel!\n")
+					escreva ("O Kart ", modelo[i], " terá uma nova cobrança de aluguel!\n")
 				}
 			}
 		}
@@ -279,7 +289,6 @@ programa {
 		}
 	}
 
-
 	funcao inicio(){
 		cadeia modelo[15]
 		real valor[15]
@@ -294,7 +303,7 @@ programa {
 		inteiro flag = 0
 		inteiro reservado = 0
 		real valorCircuito = 0.0
-		inteiro cadastroCircuito=0
+		inteiro cadastroCircuito = 0
 
 		//modelo[0] = "Nissan"
 		//valor[0] = 3000.50
@@ -338,7 +347,13 @@ programa {
 					cadastroCircuito
 					)
 			} senao {
-				sair(interruptor)
+				limpa()
+				escreva(" __________________________  \n")
+				escreva("|                          | \n")
+				escreva("|      Opçao Invalida!     | \n")
+				escreva("|__________________________| \n")
+				u.aguarde(2000)
+				limpa()
 			}
 		}
 		
@@ -360,7 +375,7 @@ programa {
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 8060; 
+ * @POSICAO-CURSOR = 7283; 
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
