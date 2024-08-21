@@ -34,7 +34,6 @@ programa {
 			para(inteiro i = 0; i <= qtdTotal - 1 ; i++) {
 				escreva("O modelo [", modelo[i],"] tem valor de locação de R$ ", valor[i]," alugado ", qtdLocado[i], " vezes, gerando um faturamento bruto de R$", valorAcumulado[i], "\n")
 			}
-			u.aguarde(2000)
 		} senao {
 			limpa()
 			escreva("No momento temos ", qtdTotal, " Karts em nosso Kartodromo \n")
@@ -43,8 +42,7 @@ programa {
 			escreva("|        No momento temos ", qtdTotal, " Karts em nosso Kartodromo         | \n")
 			escreva("|_____________________________________________________________| \n")
 			escreva("\n")
-			u.aguarde(1000)
-		}
+		}	
 	}
 
 	funcao kartLocados(inteiro qtdTotal, cadeia modelo[], inteiro disponivel[]) {
@@ -52,41 +50,36 @@ programa {
 		escreva("Lista de carros locados:\n")
 		se(qtdTotal == 0){
 			escreva("Nenhum kart cadastrado\n")
-			u.aguarde(1000)
 		}
 		para(inteiro i = 0; i < qtdTotal; i++) {	
 			se(disponivel[i] == 0) {
 				escreva("O modelo [", modelo[i], "] está locado\n")
 				achei = 1
-				u.aguarde(2000)
 			} senao {
 				se(disponivel[i] != 0 e achei == 0) {
 					escreva("Nenhum modelo locado\n")
-					achei = 1
-					u.aguarde(1000)
+					pare
 				}
 			}
 		}	
 	}
 
-	funcao alugarKart(inteiro qtdTotal, cadeia modelo[], real valor[], inteiro qtdLocado[], inteiro disponivel[], real &valorAcumulado[]) {
+	funcao alugarKart(inteiro qtdTotal, cadeia modelo[], real valor[], inteiro qtdLocado[], inteiro disponivel[], real &valorAcumulado[], inteiro devolvido[]) {
 		inteiro numeroKart, achei = 0
 		escreva("Aluguel de kart's\n")
 		se(qtdTotal == 0){
 			escreva("Nenhum kart cadastrado\n")
-			u.aguarde(1000)
 		}
 		para(inteiro i = 0; i < qtdTotal; i++) {
 			se(disponivel[i] == 1) {
 				escreva("Escolha ", i," para alugar o kart: Modelo - [", modelo[i], "] -------- R$", valor[i], "\n")
-				escreva("R: ")
+				devolvido[i] = 0
 				achei = 1
 			}	
 		}
 		para(inteiro i = 0; i < qtdTotal; i++) {
 			se(disponivel[i] != 1 e achei == 0) {
 				escreva("Nenhum kart disponível para alugar\n")
-				u.aguarde(1000)
 				pare		
 			} 
 		}	
@@ -104,24 +97,22 @@ programa {
 		}
 	}
 
-	funcao devolverKart(inteiro qtdTotal, cadeia modelo[], inteiro qtdLocado[], inteiro disponivel[]){
+	funcao devolverKart(inteiro qtdTotal, cadeia modelo[], inteiro qtdLocado[], inteiro disponivel[], inteiro devolvido[]){
 		inteiro numeroKart, achei = 0
 		escreva("Devolução de kart's\n")
 		se(qtdTotal == 0){
 			escreva("Nenhum kart cadastrado\n")
-			u.aguarde(1000)
 		}
 		para(inteiro i = 0; i < qtdTotal; i++) {
 			se(disponivel[i] == 0) {
 				escreva("Escolha ", i," para devolver o kart: Modelo - [", modelo[i],"]\n")
-				escreva("R: ")
+				devolvido[i] = 1
 				achei = 1
 			}	
 		}
 		para(inteiro i = 0; i < qtdTotal; i++) {
 			se(disponivel[i] == 1 e achei == 0) {
 				escreva("Nenhum kart para devolver\n")
-				u.aguarde(1000)
 				pare		
 			} 
 		}	
@@ -142,39 +133,34 @@ programa {
 		real maior = 0.0
 		se (qtdTotal==0){
 			escreva ("Nenhum Kart cadastrado!\n")
-			u.aguarde(1000)
 		}
-		para (inteiro i = 0; i <= 14; i++){
+		para (inteiro i = 0; i < qtdTotal; i++){
 			se (qtdLocado [i]>=1){
 				controle++
 			}
 		}
 		se (controle>=1){
-			para(inteiro i = 0; i < 15; i++){
+			para(inteiro i = 0; i < qtdTotal; i++){
 				se(valorAcumulado[i] > maior){
 					maior = valorAcumulado[i]
 					indice = i
 				}
 			}
-			escreva("O Kart mais alugado foi o: [", modelo[indice], "], com um total de [", qtdLocado[indice] , "] vezes alugado e com um acumulo de: R$",valorAcumulado[indice], "\n")
-			u.aguarde(1000)
+			escreva("O Kart que gerou mais ganhos foi o: [", modelo[indice], "], com um total de [", qtdLocado[indice] , "] vezes alugado e com um acumulo de: R$",valorAcumulado[indice], "\n")
 		}
 		se (controle == 0 e qtdTotal != 0){
-			escreva ("Nenhum dos Karts cadastrados foi locado, portando,  não temos o Kart mais lucrativo no momento.\n")
-			u.aguarde(1000)
+			escreva ("Nenhum dos Karts cadastrados foi locado, portando, não temos o Kart mais lucrativo no momento.\n")
 		}
 	}
 
 	funcao receitaDia(inteiro dia, real valorAcumulado[], inteiro &flag, real &valorCircuito, inteiro disponivel[], inteiro reservado){
 		real total = 0.0, lucro= 0.0
-		escreva("Hoje e o dia: ", dia, "\n")
+		escreva("Hoje é o dia: ", dia, "\n")
 
 		
 		para(inteiro i = 0; i < 15; i++){
-			se (disponivel [i]==0){
-				total += valorAcumulado[i]
-				lucro= 0.30 * total
-			}	
+			total += valorAcumulado[i]
+			lucro= 0.30 * total	
 		}
 		se (reservado==1){
 			total = lucro + valorCircuito
@@ -182,7 +168,6 @@ programa {
 			total= lucro
 		}
 		escreva("A receita liquida hoje é: R$", total , "\n")
-		u.aguarde(1000)
 	}
 
 	funcao alugarCircuito(real &preco, inteiro &reservado, real &valorCircuito, inteiro &cadastroCircuito){
@@ -201,18 +186,16 @@ programa {
 			se(choice == 1){
 				se(reservado == 0 e cadastroCircuito==1){
 					escreva("Reserva feita com sucesso!\n")
-					u.aguarde(1000)
 					valorCircuito *= 0.70
 					reservado = 1
 				}
 			}
 		}senao{
 			escreva("O circuito já está reservado e por isso não pode ser alugado no momento.\n")
-			u.aguarde(1000)
 		}
 	}
 
-	funcao atualizarDia(real &preco, real &valorCircuito, inteiro &dia, inteiro &flag, real valorAcumulado[], inteiro &qtdLocado[], real valor[], inteiro &reservado, inteiro disponivel[], cadeia modelo[]){	
+	funcao atualizarDia(real &preco, real &valorCircuito, inteiro &dia, inteiro &flag, real valorAcumulado[], inteiro &qtdLocado[], real valor[], inteiro &reservado, inteiro disponivel[], cadeia modelo[],  inteiro devolvido[]){	
 		escreva("Dia: ", dia, "\n")
 		escreva("O circuito está disponível para o novo dia!\n")
 		para(inteiro i = 0; i < 15; i++){
@@ -223,12 +206,16 @@ programa {
 					escreva ("O Kart ", modelo[i], " terá uma nova cobrança de aluguel!\n")
 				}
 			}
+			se(devolvido[i] == 1)
+			{
+				valorAcumulado[i] = 0.0
+				qtdLocado[i] = 0
+			}			
 		}
 		flag = 0
 		dia++
 		reservado = 0
 		valorCircuito = preco
-		u.aguarde(1000)
 	}
 
 	funcao sair(inteiro &interruptor){
@@ -254,7 +241,8 @@ programa {
 		inteiro &flag,
 		inteiro &reservado,
 		real &valorCircuito, 
-		inteiro &cadastroCircuito
+		inteiro &cadastroCircuito,
+		inteiro devolvido[]
 		) {
 			
 		escolha(opcao) {
@@ -263,27 +251,35 @@ programa {
 				pare
 			caso 2:
 				kartDisponiveis(qtdTotal, modelo, valor, qtdLocado, valorAcumulado)
+				u.aguarde(2000)				
 				pare
 			caso 3:
 				kartLocados(qtdTotal, modelo, disponivel)
+				u.aguarde(2000)
 				pare
 			caso 4:
-				alugarKart(qtdTotal, modelo, valor, qtdLocado, disponivel, valorAcumulado)
+				alugarKart(qtdTotal, modelo, valor, qtdLocado, disponivel, valorAcumulado, devolvido)
+				u.aguarde(1000)
 				pare
 			caso 5:
-				devolverKart(qtdTotal, modelo, qtdLocado, disponivel)
+				devolverKart(qtdTotal, modelo, qtdLocado, disponivel, devolvido)
+				u.aguarde(1000)
 				pare
 			caso 6:
 				kartMaiorGanho(qtdTotal, valorAcumulado, modelo, qtdLocado)
+				u.aguarde(2000)
 				pare
 			caso 7:
 				receitaDia(dia, valorAcumulado, flag, valorCircuito, disponivel, reservado)
+				u.aguarde(2000)
 				pare
 			caso 8:
 				alugarCircuito(preco, reservado, valorCircuito, cadastroCircuito)
+				u.aguarde(2000)
 				pare
 			caso 9:
-				atualizarDia(preco, valorCircuito, dia, flag, valorAcumulado, qtdLocado, valor, reservado, disponivel, modelo)
+				atualizarDia(preco, valorCircuito, dia, flag, valorAcumulado, qtdLocado, valor, reservado, disponivel, modelo, devolvido)
+				u.aguarde(2000)
 				pare
 			caso 10:
 				sair(interruptor)
@@ -307,6 +303,7 @@ programa {
 		real valorCircuito = 0.0
 		inteiro cadastroCircuito = 0
 		real preco = 0.0
+		inteiro devolvido[15]
 
 		//modelo[0] = "Nissan"
 		//valor[0] = 3000.50
@@ -348,7 +345,8 @@ programa {
 					flag,
 					reservado,
 					valorCircuito,
-					cadastroCircuito
+					cadastroCircuito,
+					devolvido
 					)
 			} senao {
 				limpa()
@@ -380,6 +378,17 @@ programa {
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
  * @POSICAO-CURSOR = 7283; 
+ * @PONTOS-DE-PARADA = ;
+ * @SIMBOLOS-INSPECIONADOS = ;
+ * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
+ * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
+ */
+/* $$$ Portugol Studio $$$ 
+ * 
+ * Esta seção do arquivo guarda informações do Portugol Studio.
+ * Você pode apagá-la se estiver utilizando outro editor.
+ * 
+ * @POSICAO-CURSOR = 11688; 
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
